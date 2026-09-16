@@ -5,86 +5,376 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [currentPage, setCurrentPage] = useState('dashboard');
 
   const handleLogin = () => {
     if (email === 'admin@revendedor.com' && password === 'Admin@2024') {
       setLoggedIn(true);
-      alert('Login bem-sucedido!');
+      setEmail('');
+      setPassword('');
     } else {
       alert('Email ou senha incorretos!');
     }
   };
 
-  if (loggedIn) {
+  const styles = {
+    container: {
+      display: 'flex',
+      minHeight: '100vh',
+      background: '#1a1a1a',
+      color: '#fff'
+    },
+    sidebar: {
+      width: '250px',
+      background: '#0d0d0d',
+      padding: '20px',
+      borderRight: '1px solid #333'
+    },
+    mainContent: {
+      flex: 1,
+      padding: '30px'
+    },
+    navItem: {
+      padding: '15px',
+      marginBottom: '10px',
+      background: '#2a2a2a',
+      border: 'none',
+      color: '#fff',
+      cursor: 'pointer',
+      borderRadius: '5px',
+      width: '100%',
+      textAlign: 'left',
+      fontSize: '16px',
+      transition: 'all 0.3s'
+    },
+    navItemActive: {
+      background: '#00bfff',
+      color: '#000',
+      fontWeight: 'bold'
+    },
+    card: {
+      background: '#2a2a2a',
+      padding: '20px',
+      borderRadius: '8px',
+      marginBottom: '20px'
+    },
+    cardGrid: {
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr',
+      gap: '20px',
+      marginBottom: '30px'
+    },
+    cardValue: {
+      fontSize: '32px',
+      fontWeight: 'bold',
+      color: '#00bfff',
+      marginTop: '10px'
+    },
+    table: {
+      width: '100%',
+      borderCollapse: 'collapse',
+      marginTop: '20px'
+    },
+    th: {
+      background: '#1a1a1a',
+      padding: '12px',
+      textAlign: 'left',
+      borderBottom: '2px solid #00bfff'
+    },
+    td: {
+      padding: '12px',
+      borderBottom: '1px solid #333'
+    },
+    logoutBtn: {
+      width: '100%',
+      padding: '12px',
+      background: '#ff4444',
+      color: '#fff',
+      border: 'none',
+      borderRadius: '5px',
+      cursor: 'pointer',
+      fontSize: '16px',
+      marginTop: '20px'
+    }
+  };
+
+  if (!loggedIn) {
     return (
-      <div style={{ padding: '20px', background: '#1a1a1a', color: '#fff', minHeight: '100vh' }}>
-        <h1>📊 Dashboard Admin - Revendedor NOW TV</h1>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-          <div style={{ background: '#2a2a2a', padding: '20px', borderRadius: '8px' }}>
-            <h2>👥 Total de Clientes</h2>
-            <p style={{ fontSize: '32px', color: '#00bfff' }}>0</p>
-          </div>
-          <div style={{ background: '#2a2a2a', padding: '20px', borderRadius: '8px' }}>
-            <h2>💰 Total de Vendas</h2>
-            <p style={{ fontSize: '32px', color: '#00bfff' }}>R$ 0,00</p>
-          </div>
-          <div style={{ background: '#2a2a2a', padding: '20px', borderRadius: '8px' }}>
-            <h2>💵 Sua Comissão (15%)</h2>
-            <p style={{ fontSize: '32px', color: '#00ff00' }}>R$ 0,00</p>
-          </div>
-          <div style={{ background: '#2a2a2a', padding: '20px', borderRadius: '8px' }}>
-            <h2>📈 Planos Ativos</h2>
-            <p style={{ fontSize: '32px', color: '#ffa500' }}>0</p>
-          </div>
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '100vh',
+        background: '#1a1a1a'
+      }}>
+        <div style={{
+          background: '#2a2a2a',
+          padding: '40px',
+          borderRadius: '8px',
+          color: '#fff',
+          textAlign: 'center',
+          width: '100%',
+          maxWidth: '400px'
+        }}>
+          <h1>🎬 Revendedor NOW TV</h1>
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            style={{
+              width: '100%',
+              padding: '12px',
+              marginBottom: '10px',
+              borderRadius: '4px',
+              border: 'none',
+              boxSizing: 'border-box'
+            }}
+          />
+          <input
+            type="password"
+            placeholder="Senha"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            style={{
+              width: '100%',
+              padding: '12px',
+              marginBottom: '20px',
+              borderRadius: '4px',
+              border: 'none',
+              boxSizing: 'border-box'
+            }}
+          />
+          <button
+            onClick={handleLogin}
+            style={{
+              width: '100%',
+              padding: '12px',
+              fontSize: '16px',
+              cursor: 'pointer',
+              borderRadius: '4px',
+              border: 'none',
+              background: '#00bfff',
+              color: '#000',
+              fontWeight: 'bold'
+            }}
+          >
+            Entrar
+          </button>
         </div>
-        <button 
-          onClick={() => setLoggedIn(false)}
-          style={{ marginTop: '20px', padding: '10px 20px', fontSize: '16px', cursor: 'pointer' }}
-        >
-          ❌ Sair
-        </button>
       </div>
     );
   }
 
   return (
-    <div style={{ 
-      display: 'flex', 
-      justifyContent: 'center', 
-      alignItems: 'center', 
-      minHeight: '100vh',
-      background: '#1a1a1a'
-    }}>
-      <div style={{ 
-        background: '#2a2a2a', 
-        padding: '40px', 
-        borderRadius: '8px',
-        color: '#fff',
-        textAlign: 'center',
-        width: '100%',
-        maxWidth: '400px'
-      }}>
-        <h1>🎬 Revendedor NOW TV</h1>
-        <input 
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          style={{ width: '100%', padding: '10px', marginBottom: '10px', borderRadius: '4px' }}
-        />
-        <input 
-          type="password"
-          placeholder="Senha"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          style={{ width: '100%', padding: '10px', marginBottom: '20px', borderRadius: '4px' }}
-        />
-        <button 
-          onClick={handleLogin}
-          style={{ width: '100%', padding: '10px', fontSize: '16px', cursor: 'pointer', borderRadius: '4px' }}
+    <div style={styles.container}>
+      <div style={styles.sidebar}>
+        <h2>📊 Menu</h2>
+        <button
+          onClick={() => setCurrentPage('dashboard')}
+          style={{
+            ...styles.navItem,
+            ...(currentPage === 'dashboard' ? styles.navItemActive : {})
+          }}
         >
-          Entrar
+          📈 Dashboard
         </button>
+        <button
+          onClick={() => setCurrentPage('clientes')}
+          style={{
+            ...styles.navItem,
+            ...(currentPage === 'clientes' ? styles.navItemActive : {})
+          }}
+        >
+          👥 Clientes
+        </button>
+        <button
+          onClick={() => setCurrentPage('planos')}
+          style={{
+            ...styles.navItem,
+            ...(currentPage === 'planos' ? styles.navItemActive : {})
+          }}
+        >
+          📦 Planos
+        </button>
+        <button
+          onClick={() => setCurrentPage('pagamentos')}
+          style={{
+            ...styles.navItem,
+            ...(currentPage === 'pagamentos' ? styles.navItemActive : {})
+          }}
+        >
+          💳 Pagamentos
+        </button>
+        <button
+          onClick={() => setCurrentPage('suporte')}
+          style={{
+            ...styles.navItem,
+            ...(currentPage === 'suporte' ? styles.navItemActive : {})
+          }}
+        >
+          🎧 Suporte
+        </button>
+        <button
+          onClick={() => setLoggedIn(false)}
+          style={styles.logoutBtn}
+        >
+          ❌ Sair
+        </button>
+      </div>
+
+      <div style={styles.mainContent}>
+        {currentPage === 'dashboard' && (
+          <div>
+            <h1>📊 Dashboard Admin - Revendedor NOW TV</h1>
+            <div style={styles.cardGrid}>
+              <div style={styles.card}>
+                <h2>👥 Total de Clientes</h2>
+                <div style={styles.cardValue}>0</div>
+              </div>
+              <div style={styles.card}>
+                <h2>💰 Total de Vendas</h2>
+                <div style={styles.cardValue}>R$ 0,00</div>
+              </div>
+              <div style={styles.card}>
+                <h2>💵 Sua Comissão (15%)</h2>
+                <div style={{ ...styles.cardValue, color: '#00ff00' }}>R$ 0,00</div>
+              </div>
+              <div style={styles.card}>
+                <h2>📈 Planos Ativos</h2>
+                <div style={{ ...styles.cardValue, color: '#ffa500' }}>0</div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {currentPage === 'clientes' && (
+          <div>
+            <h1>👥 Gerenciar Clientes</h1>
+            <div style={styles.card}>
+              <p>Nenhum cliente cadastrado ainda.</p>
+              <button style={{
+                padding: '10px 20px',
+                background: '#00bfff',
+                color: '#000',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontWeight: 'bold'
+              }}>
+                ➕ Adicionar Cliente
+              </button>
+            </div>
+            <table style={styles.table}>
+              <thead>
+                <tr>
+                  <th style={styles.th}>Nome</th>
+                  <th style={styles.th}>Email</th>
+                  <th style={styles.th}>Plano</th>
+                  <th style={styles.th}>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style={styles.td} colSpan="4">Sem clientes</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        )}
+
+        {currentPage === 'planos' && (
+          <div>
+            <h1>📦 Gerenciar Planos</h1>
+            <button style={{
+              padding: '10px 20px',
+              background: '#00ff00',
+              color: '#000',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontWeight: 'bold',
+              marginBottom: '20px'
+            }}>
+              ➕ Criar Novo Plano
+            </button>
+            <div style={styles.cardGrid}>
+              <div style={styles.card}>
+                <h3>Plano Básico</h3>
+                <p>R$ 49,90/mês</p>
+                <p>HD em 1 dispositivo</p>
+                <button style={{
+                  padding: '10px',
+                  background: '#00bfff',
+                  color: '#000',
+                  border: 'none',
+                  borderRadius: '4px',
+                  cursor: 'pointer'
+                }}>
+                  Editar
+                </button>
+              </div>
+              <div style={styles.card}>
+                <h3>Plano Premium</h3>
+                <p>R$ 79,90/mês</p>
+                <p>4K em 4 dispositivos</p>
+                <button style={{
+                  padding: '10px',
+                  background: '#00bfff',
+                  color: '#000',
+                  border: 'none',
+                  borderRadius: '4px',
+                  cursor: 'pointer'
+                }}>
+                  Editar
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {currentPage === 'pagamentos' && (
+          <div>
+            <h1>💳 Histórico de Pagamentos</h1>
+            <table style={styles.table}>
+              <thead>
+                <tr>
+                  <th style={styles.th}>Cliente</th>
+                  <th style={styles.th}>Plano</th>
+                  <th style={styles.th}>Valor</th>
+                  <th style={styles.th}>Data</th>
+                  <th style={styles.th}>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style={styles.td} colSpan="5">Nenhum pagamento ainda</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        )}
+
+        {currentPage === 'suporte' && (
+          <div>
+            <h1>🎧 Tickets de Suporte</h1>
+            <table style={styles.table}>
+              <thead>
+                <tr>
+                  <th style={styles.th}>ID</th>
+                  <th style={styles.th}>Cliente</th>
+                  <th style={styles.th}>Assunto</th>
+                  <th style={styles.th}>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style={styles.td} colSpan="4">Nenhum ticket aberto</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
     </div>
   );
